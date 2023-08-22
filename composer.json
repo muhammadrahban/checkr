@@ -1,0 +1,37 @@
+{
+    "name": "muhammadrahban/checkr",
+    "description": "Checkr Background Service SDK in PHP",
+    "keywords": [
+        "laravel",
+        "symphony",
+        "checkr"
+    ],
+    "authors": [
+        {
+        "name": "muhammadrahban",
+        "email": "muhammadrahban4@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Muhammadrahban\\Checkr\\": "src/"
+        }
+    },
+    "require": {
+        "guzzlehttp/guzzle": "^7.7",
+        "illuminate/support": "^10.19",
+        "illuminate/routing": "^10.19"
+    },
+    "minimum-stability": "stable",
+    "extra": {
+        "laravel": {
+        "providers": [
+            "Muhammadrahban\\Checkr\\Laravel\\CheckrServiceProvider"
+        ],
+        "aliases": {
+            "Checkr": "Muhammadrahban\\Checkr\\Laravel\\Facades\\Checkr"
+        }
+        }
+    }
+
+}

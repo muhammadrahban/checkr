@@ -1,0 +1,58 @@
+<?php
+
+namespace Muhammadrahban\Checkr\Entities\Resources;
+
+use Muhammadrahban\Checkr\Client;
+
+class Document extends AbstractResource
+{
+    /**
+     * Document constructor.
+     *
+     * @param null|string|array $values
+     * @param null|Client $client
+     */
+    public function __construct($values = null, Client $client = null)
+    {
+        $this->setHidden([
+            'report_id',
+            'hidden',
+        ]);
+
+        parent::__construct($values, $client);
+    }
+
+
+    /**
+     * Upload a document using a multipart form.
+     *
+     * @param string $type
+     * @param string $file
+     * @param string|null $candidateId
+     *
+     * @return $this
+     */
+    public function upload($type, $file, $candidateId = null)
+    {
+        if ($candidateId !== null) {
+            $this->setAttribute('candidate_id', $candidateId);
+        }
+
+        $response = $this->uploadRequest($this->processPath('candidates/:candidate_id/documents',
+            ['candidate_id' => $this->getAttribute('candidate_id')]),
+            ['multipart' => [
+                ['name' => 'type', 'contents' => $type],
+                ['name' => 'file', 'contents' => fopen($file, 'rb')],
+            ],
+            ]);
+        $this->setAttributes([]);
+        $this->setValues($response);
+
+        return $this;
+    }
+
+    protected function uploadRequest($path, $options)
+    {
+        return $this->getClient()->request('post', $path, $options);
+    }
+}
